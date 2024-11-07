@@ -3,6 +3,8 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
+import { AssetsModule } from './assets/assets.module';
+import { CryptoAssetsModule } from './cryptoAssets/cryptoAssets.module';
 
 @Module({
   imports: [
@@ -10,6 +12,9 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     PrismaModule,
     UsersModule,
+    AssetsModule,
+    CryptoAssetsModule,
   ],
+  providers: [],
 })
 export class AppModule {}

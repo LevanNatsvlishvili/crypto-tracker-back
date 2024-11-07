@@ -29,3 +29,13 @@ model PasswordResets {
 
 }
 
+model CryptoAssets {
+  id                Int @id         @default(autoincrement())
+  userId            Int             
+  name              String           @unique
+  symbol            String           @unique
+  amount            Int          
+  boughtAt          DateTime       
+  createdAt         DateTime        @default(now())
+}
+

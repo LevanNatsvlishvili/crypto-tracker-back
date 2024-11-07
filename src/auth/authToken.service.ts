@@ -9,7 +9,7 @@ export class TokenService {
     const payload = { sub: userId, email };
 
     const accessToken = await this.jwtService.signAsync(payload, {
-      expiresIn: '30s', // Access token expiry time
+      expiresIn: '30m', // Access token expiry time
       secret: process.env.JWT_SECRET,
     });
 
