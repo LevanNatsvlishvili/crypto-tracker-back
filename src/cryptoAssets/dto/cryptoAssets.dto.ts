@@ -12,6 +12,9 @@ export class cryptoAssetDTO {
   amount: number;
 
   @IsNotEmpty()
+  priceWhenBought: number;
+
+  @IsNotEmpty()
   userId: number;
 
   @IsNotEmpty()

@@ -34,7 +34,8 @@ model CryptoAssets {
   userId            Int             
   name              String           @unique
   symbol            String           @unique
-  amount            Int          
+  priceWhenBought   Float
+  amount            Float          
   boughtAt          DateTime       
   createdAt         DateTime        @default(now())
 }

@@ -15,10 +15,10 @@ export class CryptoAssetsController {
     return this.cryptoAssets.enterCryptoAsset(dto);
   }
 
-  @Get('/crypto-list')
-  async getCryptoAssetsFromCoinmarketcap(@Query() query: cryptoAssetFromCoinmarketcapDTO) {
-    return this.cryptoAssets.getCryptoAssetsFromCoinmarketcap(query);
-  }
+  // @Get('/crypto-list')
+  // async getCryptoAssetsFromCoinmarketcap(@Query() query: cryptoAssetFromCoinmarketcapDTO) {
+  //   return this.cryptoAssets.getHistoricalDataFromCoinGecko(query);
+  // }
 
   @Get(':userId')
   async getCryptoAssetsByUserId(@Param('userId', ParseIntPipe) userId: number) {
