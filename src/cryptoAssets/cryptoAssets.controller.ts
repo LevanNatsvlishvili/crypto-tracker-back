@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, UseGuards, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 // import { Users } from '@prisma/client';
 // import { GetUser } from 'src/auth/decorator';
-import { cryptoAssetDTO } from './dto';
+import { cryptoAssetDTO, cryptoAssetFromCoinmarketcapDTO } from './dto';
 import { CryptoAssetsService } from './cryptoAssets.service';
 
 @UseGuards(AuthGuard('jwt'))
@@ -13,6 +13,11 @@ export class CryptoAssetsController {
   @Post()
   enterCryptoAsset(@Body() dto: cryptoAssetDTO) {
     return this.cryptoAssets.enterCryptoAsset(dto);
+  }
+
+  @Get('/crypto-list')
+  async getCryptoAssetsFromCoinmarketcap(@Query() query: cryptoAssetFromCoinmarketcapDTO) {
+    return this.cryptoAssets.getCryptoAssetsFromCoinmarketcap(query);
   }
 
   @Get(':userId')

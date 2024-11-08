@@ -19,3 +19,14 @@ export class cryptoAssetDTO {
   @IsDate()
   boughtAt: Date;
 }
+
+export class cryptoAssetFromCoinmarketcapDTO {
+  @IsNotEmpty()
+  start: string;
+
+  @IsNotEmpty()
+  limit: string;
+
+  @IsNotEmpty()
+  convert: string;
+}
