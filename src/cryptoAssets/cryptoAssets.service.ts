@@ -1,9 +1,9 @@
-import { Dependencies, ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { cryptoAssetDTO, cryptoAssetFromCoinmarketcapDTO } from './dto';
+import { cryptoAssetDTO } from './dto';
 import { HttpService } from '@nestjs/axios';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { AxiosResponse } from 'axios';
 
 interface CryptoQuote {
