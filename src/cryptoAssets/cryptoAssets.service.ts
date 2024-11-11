@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { cryptoAssetDTO } from './dto';
@@ -61,6 +61,83 @@ export class CryptoAssetsService {
         },
       });
       return asset;
+    } catch (e) {
+      if (e instanceof PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          throw new ForbiddenException('Asset with this name already exists');
+        }
+      }
+      throw e;
+    }
+  }
+
+  async updateCryptoAsset(id: number, dto: cryptoAssetDTO) {
+    try {
+      if (isNaN(Number(id))) {
+        throw new BadRequestException('Invalid Id provided, ID must be an integer');
+      }
+      const parsedId = Number(id);
+      const existingAsset = await this.prisma.cryptoAssets.findUnique({
+        where: { id: parsedId },
+      });
+
+      if (!existingAsset) {
+        throw new NotFoundException("Asset with this id doesn't exist");
+      }
+
+      const updatedAsset = await this.prisma.cryptoAssets.update({
+        where: { id: parsedId },
+        data: {
+          name: dto.name,
+          amount: dto.amount,
+          priceWhenBought: dto.priceWhenBought,
+          symbol: dto.symbol,
+          boughtAt: dto.boughtAt,
+          userId: dto.userId,
+        },
+        select: {
+          id: true,
+          name: true,
+          createdAt: true,
+        },
+      });
+      return updatedAsset;
+    } catch (e) {
+      if (e instanceof PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          throw new ForbiddenException('Asset with this name already exists');
+        }
+      }
+      throw e;
+    }
+  }
+
+  async deleteCryptoAsset(id: number) {
+    try {
+      if (isNaN(Number(id))) {
+        throw new BadRequestException('Invalid ID provided, ID must be an integer');
+      }
+      const parsedId = Number(id);
+      const existingAsset = await this.prisma.cryptoAssets.findUnique({
+        where: { id: parsedId },
+      });
+
+      if (!existingAsset) {
+        throw new NotFoundException("Asset with this id doesn't exist");
+      }
+
+      const deletedAsset = await this.prisma.cryptoAssets.delete({
+        where: { id: parsedId },
+        select: {
+          id: true,
+          name: true,
+          createdAt: true,
+        },
+      });
+      return {
+        message: 'Asset has been succesfully deleted',
+        data: deletedAsset,
+      };
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
         if (e.code === 'P2002') {

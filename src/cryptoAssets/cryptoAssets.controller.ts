@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, UseGuards, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param, ParseIntPipe, Put, Delete } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 // import { Users } from '@prisma/client';
 // import { GetUser } from 'src/auth/decorator';
-import { cryptoAssetDTO, cryptoAssetFromCoinmarketcapDTO } from './dto';
+import { cryptoAssetDTO } from './dto';
 import { CryptoAssetsService } from './cryptoAssets.service';
 
 @UseGuards(AuthGuard('jwt'))
@@ -15,10 +15,15 @@ export class CryptoAssetsController {
     return this.cryptoAssets.enterCryptoAsset(dto);
   }
 
-  // @Get('/crypto-list')
-  // async getCryptoAssetsFromCoinmarketcap(@Query() query: cryptoAssetFromCoinmarketcapDTO) {
-  //   return this.cryptoAssets.getHistoricalDataFromCoinGecko(query);
-  // }
+  @Put(':id')
+  updateCryptoAsset(@Param('id') id: number, @Body() dto: cryptoAssetDTO) {
+    return this.cryptoAssets.updateCryptoAsset(id, dto);
+  }
+
+  @Delete(':id')
+  deleteCryptoAsset(@Param('id') id: number) {
+    return this.cryptoAssets.deleteCryptoAsset(id);
+  }
 
   @Get(':userId')
   async getCryptoAssetsByUserId(@Param('userId', ParseIntPipe) userId: number) {
